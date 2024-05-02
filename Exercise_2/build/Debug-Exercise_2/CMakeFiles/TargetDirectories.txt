@@ -1,5 +1,0 @@
-C:/Users/masse/OneDrive/Desktop/PCS/PCSesercizi/Esercitazione_5_STL/Exercise_2/build/Debug-Exercise_2/CMakeFiles/polygonalMesh.dir
-C:/Users/masse/OneDrive/Desktop/PCS/PCSesercizi/Esercitazione_5_STL/Exercise_2/build/Debug-Exercise_2/CMakeFiles/edit_cache.dir
-C:/Users/masse/OneDrive/Desktop/PCS/PCSesercizi/Esercitazione_5_STL/Exercise_2/build/Debug-Exercise_2/CMakeFiles/rebuild_cache.dir
-C:/Users/masse/OneDrive/Desktop/PCS/PCSesercizi/Esercitazione_5_STL/Exercise_2/build/Debug-Exercise_2/src/CMakeFiles/edit_cache.dir
-C:/Users/masse/OneDrive/Desktop/PCS/PCSesercizi/Esercitazione_5_STL/Exercise_2/build/Debug-Exercise_2/src/CMakeFiles/rebuild_cache.dir

@@ -1,8 +1,0 @@
-# ninja log v5
-10	2770	7363705566498548	CMakeFiles/polygonalMesh.dir/main.cpp.obj	961fe183c9dc7fbc
-6	2340	7363709667923870	CMakeFiles/polygonalMesh.dir/src/Utils.cpp.obj	39e3537af589f234
-2341	2584	7363709670377295	polygonalMesh.exe	b0da421e28c3f6d7
-7	1969	7363710012993685	CMakeFiles/polygonalMesh.dir/main.cpp.obj	961fe183c9dc7fbc
-1970	2226	7363710015443402	polygonalMesh.exe	b0da421e28c3f6d7
-5	1909	7363710266478402	CMakeFiles/polygonalMesh.dir/main.cpp.obj	961fe183c9dc7fbc
-1909	2152	7363710268935811	polygonalMesh.exe	b0da421e28c3f6d7
