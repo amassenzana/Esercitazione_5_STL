@@ -32,7 +32,8 @@
 *.app
 
 # Folder
-*Debug*
+*DBG-Exercise_1*
+*Exercise_1*
 externals
 *Release*
 
