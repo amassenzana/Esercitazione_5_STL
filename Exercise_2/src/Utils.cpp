@@ -2,8 +2,25 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include "Eigen/Eigen"
 
 namespace PolygonalLibrary{
+
+double computeArea(unsigned int IDpoly, PolygonalMesh &mesh){
+    int n = mesh.Cell2DVertices[IDpoly].size();
+    double area = 0.;
+    for(int i = 0; i < n; i++){
+        int j = (i+1) % n;
+        double ax = mesh.Cell0DCoordinates[mesh.Cell2DVertices[IDpoly][i]](0);
+        double ay = mesh.Cell0DCoordinates[mesh.Cell2DVertices[IDpoly][i]](1);
+        double bx = mesh.Cell0DCoordinates[mesh.Cell2DVertices[IDpoly][j]](0);
+        double by = mesh.Cell0DCoordinates[mesh.Cell2DVertices[IDpoly][j]](1);
+        area += ax*by-bx*ay;
+    }
+    area = fabs(area)/2.0;
+
+    return area;
+}
 
 bool ImportMesh(const string &path, PolygonalMesh &mesh){
     if(!ImportCell0D(path,mesh))
@@ -40,14 +57,47 @@ bool ImportMesh(const string &path, PolygonalMesh &mesh){
     if(!ImportCell2D(path,mesh))
         return false;
     else{
-        /* TEST
-         *  1) All marker have been stored correctly
-         *  2) the edges of the polygons have non-zero length
-         *  3) the area of the triangles is non-zero */
+        /* TEST 1) All marker have been stored correctly
+         * Controllo che i punti con marker 5 abbiano y<=TUTTI GLI ALTRI etc...
+         * Controllo che i lati con marker 5 abbiano la stessa y?
+         */
 
 
+        /* TEST 2) the edges of polygons have non-zero length
+         * Per fare questo test devo entrare in ogni poligono,
+         * selezionare i suoi lati e controllarne la lunghezza. */
 
+        for(unsigned int i = 0; i < mesh.NumberCell2D; i++){
+            // lati del poligono i: mesh.Cell2DEdges[i]
+            for(const unsigned int& edgeId : mesh.Cell2DEdges[i]){
+                int aID = mesh.Cell1DVertices[edgeId](0);
+                int bID = mesh.Cell1DVertices[edgeId](1);
+                double ax = mesh.Cell0DCoordinates[aID](0);
+                double ay = mesh.Cell0DCoordinates[aID](1);
+                double bx = mesh.Cell0DCoordinates[bID](0);
+                double by = mesh.Cell0DCoordinates[bID](1);
 
+                double len = fabs(ax-bx)+fabs(ay-by);
+                if (len < 1e-8){
+                    cerr << "ERRORE: " << aID << " " << bID << endl;
+                    return false;
+                }
+            }
+        }
+        cout << "TEST 2: Lunghezza dei lati > 0. SUPERATO CORRETTAMENTE"<< endl;
+
+        /* TEST 3) the area of the polygons is non-zero
+         * Devo entrare in ogni poligono e calcolarne l'area
+         * Poi controllo che sia più grande di una certa tolleranza. */
+
+        for(unsigned int i = 0; i < mesh.NumberCell2D; i++){
+            double area = computeArea(i, mesh);
+            if(area <= 1e-10){
+                cerr << "Errrore: poligono " << i << " troppo piccolo!";
+                return false;
+            }
+        }
+        cout << "TEST 3: Area dei poligoni > 0. SUPERATO CORRETTAMENTE" << endl;
     }
 
 
@@ -195,13 +245,13 @@ bool ImportCell2D(const string &path, PolygonalMesh &mesh){
         getline(iss, token, ';');
 
         mesh.Cell2DId.push_back(id);
-        cout << "riga: " << line << endl;
+        // cout << "riga: " << line << endl;
 
         getline(iss, token, ';');
         unsigned int numVert = stoi(token);
 
         vector<unsigned int> vert(numVert);
-        for(int i = 0; i < numVert; i++){
+        for(unsigned int i = 0; i < numVert; i++){
             getline(iss, token, ';');
             vert[i] = stoi(token);
         }
@@ -214,7 +264,7 @@ bool ImportCell2D(const string &path, PolygonalMesh &mesh){
         unsigned int numEdg = stoi(token);
 
         vector<unsigned int> edg(numEdg);
-        for(int i = 0; i < numEdg; i++){
+        for(unsigned int i = 0; i < numEdg; i++){
             getline(iss, token, ';');
             edg[i] = stoi(token);
         }
